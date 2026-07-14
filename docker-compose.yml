@@ -1,0 +1,67 @@
+# ==========================================================================
+# Secure Event Management Platform - local / demo orchestration
+# Services: postgres, mailhog (dev SMTP), backend API, frontend (nginx).
+# Secrets are read from a .env file at the repo root (see .env.example).
+# ==========================================================================
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${PGDATABASE:-event_platform}
+      POSTGRES_USER: ${PGUSER:-event_app}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-change_me_strong_db_password}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PGUSER:-event_app} -d ${PGDATABASE:-event_platform}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # Not published to the host in production; only the backend can reach it.
+    expose:
+      - "5432"
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: unless-stopped
+    ports:
+      - "8025:8025"   # web UI to read OTP / verification emails in dev
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      CLIENT_ORIGIN: ${CLIENT_ORIGIN:-http://localhost:8080}
+      PGHOST: db
+      PGPORT: 5432
+      PGDATABASE: ${PGDATABASE:-event_platform}
+      PGUSER: ${PGUSER:-event_app}
+      PGPASSWORD: ${PGPASSWORD:-change_me_strong_db_password}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      DATA_ENCRYPTION_KEY: ${DATA_ENCRYPTION_KEY}
+      SMTP_HOST: mailhog
+      SMTP_PORT: 1025
+      SMTP_SECURE: "false"
+    # Run migrations, then start the API.
+    command: sh -c "node src/config/migrate.js && node src/server.js"
+    expose:
+      - "4000"
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+
+volumes:
+  db_data:
