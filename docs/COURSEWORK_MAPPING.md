@@ -15,7 +15,8 @@ requirement to the concrete artefact/evidence in this repository.
 7. **Access control (RBAC)** — least privilege, ownership (`authorize.js`, services).
 8. **Threat model (STRIDE)** — `THREAT_MODEL.md`.
 9. **Testing** — unit/integration + CI (`backend/tests`, `ci.yml`).
-10. **Internal penetration test** — `PENTEST_REPORT.md` (IDOR + Stored XSS).
+10. **Internal penetration test** — `PENTEST_REPORT.md` (rate-limiting finding +
+    controlled IDOR demonstration; detailed findings under `pentest/findings/`).
 11. **Deployment** — Docker/Compose/CI (`docker-compose.yml`, `ci.yml`).
 12. **Evaluation, residual risks & future work** — `THREAT_MODEL.md` §6.
 13. **Conclusion**, references, appendices (screenshots, logs).
@@ -47,8 +48,8 @@ requirement to the concrete artefact/evidence in this repository.
 | Data export + account deletion | `profileService.exportData` / `deleteAccount` |
 | Booking integrity / race / rollback | `bookingService.book` (tx + `FOR UPDATE` + unique) |
 | Threat modeling (STRIDE) | `THREAT_MODEL.md` |
-| Pen test report (IDOR + Stored XSS, before/after) | `PENTEST_REPORT.md` |
-| Vulnerability doc fields (OWASP/CVSS/steps/remediation/retest) | `PENTEST_REPORT.md` §3–4 |
+| Pen test report (rate-limiting finding + controlled IDOR demo, before/after) | `PENTEST_REPORT.md`, `pentest/findings/` |
+| Vulnerability doc fields (OWASP/CVSS/steps/remediation/retest) | `PENTEST_REPORT.md` §3, `pentest/findings/FINDING-ratelimit-sensitive-endpoints.md`, `pentest/findings/DEMO-idor-booking-cancel.md` |
 | 40+ commit roadmap | `COMMIT_ROADMAP.md` (55) |
 | Dockerfile + docker-compose (fe/be/db) | `backend/Dockerfile`, `frontend/Dockerfile`, `docker-compose.yml` |
 | GitHub Actions (tests/lint/security/build) | `.github/workflows/ci.yml` |
