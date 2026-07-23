@@ -32,12 +32,14 @@ export default function AdminDashboard() {
                   <td>{u.status}</td>
                   <td className="space-x-2 py-1">
                     <select defaultValue={u.role} onChange={(e) => setRole(u.id, e.target.value)}
+                      aria-label={`Change role for ${u.email}`}
                       className="rounded border text-xs">
                       <option value="user">user</option>
                       <option value="organizer">organizer</option>
                       <option value="admin">admin</option>
                     </select>
-                    <button type="button" onClick={() => suspend(u.id)} className="text-xs text-red-600">
+                    <button type="button" onClick={() => suspend(u.id)}
+                      aria-label={`Suspend user ${u.email}`} className="text-xs text-red-600">
                       Suspend
                     </button>
                   </td>

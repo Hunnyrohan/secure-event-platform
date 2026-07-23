@@ -36,15 +36,27 @@ export default function Register() {
     <form onSubmit={onSubmit} className="mx-auto max-w-md space-y-4 rounded-lg bg-white p-6 shadow">
       <h1 className="text-xl font-semibold">Create your account</h1>
       {error && <p className="rounded bg-red-50 p-2 text-sm text-red-700">{error}</p>}
-      <input name="fullName" value={form.fullName} onChange={onChange} placeholder="Full name"
-        className="w-full rounded border px-3 py-2" required minLength={2} maxLength={120} />
-      <input name="username" value={form.username} onChange={onChange} placeholder="Username"
-        className="w-full rounded border px-3 py-2" required minLength={3} maxLength={30}
-        pattern="[a-zA-Z0-9._-]+" title="Letters, digits, and . _ - only" />
-      <input name="email" type="email" value={form.email} onChange={onChange} placeholder="Email"
-        className="w-full rounded border px-3 py-2" required />
-      <input name="password" type="password" value={form.password} onChange={onChange}
-        placeholder="Password" className="w-full rounded border px-3 py-2" required minLength={12} />
+      <div>
+        <label className="block text-sm text-gray-500" htmlFor="reg-fullname">Full name</label>
+        <input id="reg-fullname" name="fullName" value={form.fullName} onChange={onChange} placeholder="Full name"
+          className="w-full rounded border px-3 py-2" required minLength={2} maxLength={120} />
+      </div>
+      <div>
+        <label className="block text-sm text-gray-500" htmlFor="reg-username">Username</label>
+        <input id="reg-username" name="username" value={form.username} onChange={onChange} placeholder="Username"
+          className="w-full rounded border px-3 py-2" required minLength={3} maxLength={30}
+          pattern="[a-zA-Z0-9._-]+" title="Letters, digits, and . _ - only" />
+      </div>
+      <div>
+        <label className="block text-sm text-gray-500" htmlFor="reg-email">Email</label>
+        <input id="reg-email" name="email" type="email" value={form.email} onChange={onChange} placeholder="Email"
+          className="w-full rounded border px-3 py-2" required />
+      </div>
+      <div>
+        <label className="block text-sm text-gray-500" htmlFor="reg-password">Password</label>
+        <input id="reg-password" name="password" type="password" value={form.password} onChange={onChange}
+          placeholder="Password" className="w-full rounded border px-3 py-2" required minLength={12} />
+      </div>
       <PasswordStrengthMeter password={form.password} />
       <Captcha onToken={setCaptchaToken} />
       <button type="submit" disabled={captchaMissing}

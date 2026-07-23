@@ -35,8 +35,14 @@ function NavBar() {
 export default function App() {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-indigo-600 focus:px-4 focus:py-2 focus:text-white"
+      >
+        Skip to main content
+      </a>
       <NavBar />
-      <main className="mx-auto max-w-4xl p-6">
+      <main id="main-content" tabIndex={-1} className="mx-auto max-w-4xl p-6">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

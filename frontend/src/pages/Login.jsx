@@ -49,10 +49,16 @@ export default function Login() {
 
       {!mfa ? (
         <form onSubmit={submitPassword} className="space-y-4">
-          <input name="email" type="email" value={form.email} onChange={onChange}
-            placeholder="Email" className="w-full rounded border px-3 py-2" required />
-          <input name="password" type="password" value={form.password} onChange={onChange}
-            placeholder="Password" className="w-full rounded border px-3 py-2" required />
+          <div>
+            <label className="block text-sm text-gray-500" htmlFor="login-email">Email</label>
+            <input id="login-email" name="email" type="email" value={form.email} onChange={onChange}
+              placeholder="Email" className="w-full rounded border px-3 py-2" required />
+          </div>
+          <div>
+            <label className="block text-sm text-gray-500" htmlFor="login-password">Password</label>
+            <input id="login-password" name="password" type="password" value={form.password} onChange={onChange}
+              placeholder="Password" className="w-full rounded border px-3 py-2" required />
+          </div>
           <Captcha onToken={setCaptchaToken} />
           <button type="submit" disabled={captchaMissing}
             className="w-full rounded bg-indigo-600 py-2 text-white disabled:opacity-50">Continue</button>
@@ -62,8 +68,13 @@ export default function Login() {
           <p className="text-sm text-gray-600">
             Enter the 6-digit code from your authenticator app (or a recovery code).
           </p>
-          <input value={otp} onChange={(e) => setOtp(e.target.value)}
-            placeholder="123456" className="w-full rounded border px-3 py-2 tracking-widest" required />
+          <div>
+            <label className="block text-sm text-gray-500" htmlFor="login-otp">
+              Authenticator or recovery code
+            </label>
+            <input id="login-otp" value={otp} onChange={(e) => setOtp(e.target.value)}
+              placeholder="123456" className="w-full rounded border px-3 py-2 tracking-widest" required />
+          </div>
           <button type="submit" className="w-full rounded bg-indigo-600 py-2 text-white">Verify</button>
         </form>
       )}
